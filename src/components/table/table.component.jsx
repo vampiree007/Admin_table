@@ -21,7 +21,7 @@ const UserTable = () => {
         axios.post('/argames/getQuery')
         .then(res => res.data.result)
         .then(users => setUsers(users))
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }, []);
 
     // 3 Render Template On Successful API Call
