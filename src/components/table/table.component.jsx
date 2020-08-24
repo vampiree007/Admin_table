@@ -5,7 +5,7 @@ import {setUser} from '../../redux/users/userAction';
 import './table.styles.scss';
 const Tick = require('../../assets/circle.png');
 
-const UserTable = (props) => {
+const UserTable = () => {
     const dispatch = useDispatch();
 
     // 1 Fetch API Set To Redux And and Retrieve Data
