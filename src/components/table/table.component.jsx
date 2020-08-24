@@ -1,30 +1,22 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect} from 'react';
 import Spinner from '../spinner/spinner.component';
-import axios from 'axios';
+import { connect, useDispatch, useSelector } from "react-redux";
+import {setUser} from '../../redux/users/userAction';
 import './table.styles.scss';
 const Tick = require('../../assets/circle.png');
 
-// + Setting Up Bearer Token for API Call
-const token = process.env.REACT_APP_TOKEN;
+const UserTable = (props) => {
+    const dispatch = useDispatch();
 
-// + Setting Up Default Axios Parameters
-axios.defaults.baseURL = 'http://66.175.217.67:3020/'
-axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
-
-const UserTable = () => {
-
-    // 1 Define Default State
-    const[users, setUsers] = useState(null);
-
-    // 2 Fetch API and Retrieve Data
+    // 1 Fetch API Set To Redux And and Retrieve Data
     useEffect(() => {
-        axios.post('/argames/getQuery')
-        .then(res => res.data.result)
-        .then(users => setUsers(users))
-        .catch(err => console.log(err));
-    }, []);
+        dispatch(setUser())  
+    }, [dispatch]);
 
-    // 3 Render Template On Successful API Call
+    // 2 Retrieve Users from Redux Store
+    const users = useSelector(state => state.user.users)
+
+    // 3 Render Template On Successful Users Retrieve
     if(users){
         return (
             <div id="table">
@@ -63,5 +55,8 @@ const UserTable = () => {
     }
 }
 
-// Export Table
-export default UserTable;
+// + Adding Dispatch Action to the Functional Component
+const mapDispatchToProps = { setUser };
+  
+// + connect Dispatch
+export default connect(null, mapDispatchToProps)(UserTable);
